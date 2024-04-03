@@ -34,7 +34,7 @@ class Router:
 
 	def connect_to_camera_proxy(self):
 		self.camera_output_socket = self.context.socket(zmq.PULL)
-		self.camera_output_socket.connect(self.egress_camera)
+		self.camera_output_socket.bind(self.egress_camera)
 
 
 	def connect_to_neural_network_proxy(self):
