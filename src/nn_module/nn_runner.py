@@ -30,7 +30,7 @@ def process_nn(config):
         # Здесь нейронка ожидает приход данных, обрабатывает их и возвращает сюда же
 		decoded_arr = cv2.imdecode(np.frombuffer(byte_img, dtype=np.uint8), -1)
 		#print(decoded_arr)
-		result = model(decoded_arr)[0]
+		result = model(numpy_img[:, :, ::-1])[0]
 
 
 		with open(r"C:\Users\1\Documents\VSCode\Python\comptech\rep\LumberDefectComptech\src\nn_module\defects.yaml") as file_categories:
@@ -45,6 +45,10 @@ def process_nn(config):
 		box = result.boxes
 		for i in range(box.xyxy.shape[0]):
 			cords = box.xyxy[i].tolist()
+			cords = list(map(int, cords))
+			PT1 = (cords[0], cords[1])
+			PT2 = (cords[2], cords[3])
+			numpy_img = cv2.rectangle(numpy_img.copy(), PT1, PT2, color=(0, 255, 0), thickness=3)
 			class_id = box.cls[i].tolist()
 			name_of_category = categories[class_id]
 			data_to_json["deffects"].append({"deffect_type": name_of_category, 

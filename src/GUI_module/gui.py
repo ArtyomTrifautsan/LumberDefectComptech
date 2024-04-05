@@ -19,10 +19,7 @@ def process_gui(config):
 
 	end = False
 	while not end:
-
 		# Здесь GUI ожидает и получает данные от нейросети  
-  
-
 		byte_data = network_controller.accept_message().decode('utf-8').replace('\'', '\"')
 		data = json.loads(byte_data)
 		# print(f"Бинарный вид полученного изображения: {byte_img}")
