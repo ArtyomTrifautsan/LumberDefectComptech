@@ -4,13 +4,21 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
+import io
+
 from src.network_module.network_controller import NetworkController
 from src.camera_module.image_loader import ImageLoader
 
-import io
+from controller import MainWindowController
+from PyQt6 import QtCore
+from PyQt6.QtWidgets import QApplication, QWidget
+from PyQt6.QtGui import QPixmap
+
+from board_displayer import BoardDisplayer
+import sys
 
 
-def process_gui(config):
+def _process_gui(config):
 	#print("Process has started")
 	network_controller = NetworkController(config)
 	image_loader = ImageLoader()
@@ -32,3 +40,13 @@ def process_gui(config):
   
 		cv2.imshow('win', numpy_img)
 		cv2.waitKey()
+
+
+def process_gui(config):
+	network_controller = NetworkController(config)
+
+	board_displayer = BoardDisplayer()
+	app = QApplication(sys.argv)
+	w1 = MainWindowController(app_kernel=board_displayer)  # = QtWidgets.QMainWindow()
+	w1.show()  # MainWindow.show()
+	app.exec()
