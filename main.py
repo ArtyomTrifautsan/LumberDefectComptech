@@ -11,7 +11,7 @@ from src.GUI_module.gui import process_gui
 
 
 def main():
-	config_data = load_config("config/config.json")
+	config_data = load_config(r"C:\Users\1\Documents\VSCode\Python\comptech\rep\LumberDefectComptech\config\config.json")
 	child_processes = []
 
 	for gui in config_data["guis"]:

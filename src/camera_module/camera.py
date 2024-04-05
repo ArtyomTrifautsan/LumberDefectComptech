@@ -11,9 +11,10 @@ def process_camera(config):
 
 	end = False
 	while not end:
-		dir = os.listdir("data")
-		print(dir)
-		src = f"data/{dir[0]}"
-		img = image_loader.load_img(src)
-		network_controller.send_message(img)
-		time.sleep(3)
+		time.sleep(5)
+
+		images = image_loader.load_images(r"C:\Users\1\Documents\VSCode\Python\comptech\rep\LumberDefectComptech\data")
+
+		for img in images:
+			network_controller.send_message(img)
+			time.sleep(3)
