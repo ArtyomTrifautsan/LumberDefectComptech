@@ -23,7 +23,7 @@ class ImageLoader:
 
 
 	def load_img(self, src):
-		img = cv2.imread(src)[:, :, ::-1]
+		img = cv2.imread(r'C:\Users\1\Documents\VSCode\Python\comptech\rep\LumberDefectComptech\data\photo_5208655493428531943_y.jpg')[:, :, ::-1]
 		byte_img = img.tobytes()
 
 		return byte_img

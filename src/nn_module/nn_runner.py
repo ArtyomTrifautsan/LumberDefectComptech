@@ -2,6 +2,10 @@ import time
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
+<<<<<<< HEAD
+=======
+import yaml
+>>>>>>> 5a409f9 (add nn)
 import json
 
 from src.network_module.network_controller import NetworkController
@@ -14,8 +18,13 @@ def process_nn(config):
 	image_loader = ImageLoader()
 	
     # Инициализировать нейронную сеть здесь
+<<<<<<< HEAD
 	#model = YOLO('yolov8n.yaml')
 	#model = YOLO("/home/artyomtrifautsan/IT/python/LumberDefectComptech/src/nn_module/best.pt")
+=======
+	model = YOLO('yolov8n.yaml')
+	model = YOLO(r"C:\Users\1\Documents\VSCode\Python\comptech\best.pt")
+>>>>>>> 5a409f9 (add nn)
 
 
 	end = False
@@ -25,6 +34,7 @@ def process_nn(config):
 
 		time.sleep(5)
 
+<<<<<<< HEAD
 		test_data = {
 			"numpy_img": numpy_img.tolist(),
 			"defects": [
@@ -36,5 +46,32 @@ def process_nn(config):
 		byte_data = str.encode(json.dumps(test_data))
 
 		network_controller.send_message(byte_data)
+=======
+		network_controller.send_message(byte_img)
+		#print(byte_img)
+>>>>>>> 5a409f9 (add nn)
 
         # Здесь нейронка ожидает приход данных, обрабатывает их и возвращает сюда же
+		decoded_arr = cv2.imdecode(np.frombuffer(byte_img, dtype=np.uint8), -1)
+		#print(decoded_arr)
+		result = model(decoded_arr)[0]
+
+
+		with open(r"C:\Users\1\Documents\VSCode\Python\comptech\rep\LumberDefectComptech\src\nn_module\defects.yaml") as file_categories:
+			info = yaml.load(file_categories, Loader=yaml.FullLoader)
+		categories = info["names"]
+		file_json = open("example.json",mode="w")
+		data_to_json = []
+
+
+
+		box = result.boxes
+		for i in range(box.xyxy.shape[0]):
+			cords = box.xyxy[i].tolist()
+			class_id = box.cls[i].tolist()
+			name_of_category = categories[class_id]
+			data_to_json.append({'deffect_type': name_of_category, 
+            		'coordinates': cords})
+		json.dump(data_to_json, fp=file_json)
+
+		print(data_to_json)
