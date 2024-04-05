@@ -1,6 +1,7 @@
 from multiprocessing import Process
 import json, time
-
+import numpy as np
+import matplotlib.pyplot as plt
 
 from src.network_module.network_controller import NetworkController
 from src.camera_module.image_loader import ImageLoader
@@ -34,6 +35,11 @@ def main():
 	for i in child_processes:
 		i.join()
 
+	try:
+		time.sleep(1)
+	except KeyboardInterrupt:
+		for i in child_processes:
+			i.terminate()
 
 def load_config(config_file_name):
     config_data = []
@@ -43,4 +49,4 @@ def load_config(config_file_name):
 
 
 if __name__ == '__main__':
-    main()
+	main()	

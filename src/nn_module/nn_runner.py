@@ -2,10 +2,7 @@ import time
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
-<<<<<<< HEAD
-=======
 import yaml
->>>>>>> 5a409f9 (add nn)
 import json
 
 from src.network_module.network_controller import NetworkController
@@ -18,13 +15,8 @@ def process_nn(config):
 	image_loader = ImageLoader()
 	
     # Инициализировать нейронную сеть здесь
-<<<<<<< HEAD
-	#model = YOLO('yolov8n.yaml')
-	#model = YOLO("/home/artyomtrifautsan/IT/python/LumberDefectComptech/src/nn_module/best.pt")
-=======
 	model = YOLO('yolov8n.yaml')
 	model = YOLO(r"C:\Users\1\Documents\VSCode\Python\comptech\best.pt")
->>>>>>> 5a409f9 (add nn)
 
 
 	end = False
@@ -32,24 +24,8 @@ def process_nn(config):
 		byte_img = network_controller.accept_message()
 		numpy_img = image_loader.byte_to_img(byte_img)
 
-		time.sleep(5)
 
-<<<<<<< HEAD
-		test_data = {
-			"numpy_img": numpy_img.tolist(),
-			"defects": [
-				["type1", [70, 70], [120, 120]],
-				["type2", [180, 170], [190, 250]],
-				["type3", [250, 270], [300, 300]],
-			]
-		}
-		byte_data = str.encode(json.dumps(test_data))
-
-		network_controller.send_message(byte_data)
-=======
-		network_controller.send_message(byte_img)
 		#print(byte_img)
->>>>>>> 5a409f9 (add nn)
 
         # Здесь нейронка ожидает приход данных, обрабатывает их и возвращает сюда же
 		decoded_arr = cv2.imdecode(np.frombuffer(byte_img, dtype=np.uint8), -1)
@@ -60,8 +36,9 @@ def process_nn(config):
 		with open(r"C:\Users\1\Documents\VSCode\Python\comptech\rep\LumberDefectComptech\src\nn_module\defects.yaml") as file_categories:
 			info = yaml.load(file_categories, Loader=yaml.FullLoader)
 		categories = info["names"]
-		file_json = open("example.json",mode="w")
-		data_to_json = []
+		# file_json = open("example.json",mode="w")
+		data_to_json = {}
+		data_to_json["deffects"] = []
 
 
 
@@ -70,8 +47,14 @@ def process_nn(config):
 			cords = box.xyxy[i].tolist()
 			class_id = box.cls[i].tolist()
 			name_of_category = categories[class_id]
-			data_to_json.append({'deffect_type': name_of_category, 
+			data_to_json["deffects"].append({"deffect_type": name_of_category, 
             		'coordinates': cords})
-		json.dump(data_to_json, fp=file_json)
+		#json.dump(data_to_json, fp=file_json)
+  
 
-		print(data_to_json)
+		data_to_json["numpy_img"] = numpy_img.tolist()
+		str_data = str(data_to_json)
+		byte_data = str_data.encode('utf-8')  # str.encode(json.dumps(data_to_json),)
+		network_controller.send_message(byte_data)
+
+		print(data_to_json['deffects'])

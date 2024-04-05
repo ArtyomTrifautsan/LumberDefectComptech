@@ -23,7 +23,7 @@ class NetworkController:
 
 	def accept_message(self):
 		#print("<Receiver: wainig for message>")
-		message = self.input_socket.recv()
+		message = self.input_socket.recv_multipart()[0]
 		#print("Receiver: ok")
 		return message
 
