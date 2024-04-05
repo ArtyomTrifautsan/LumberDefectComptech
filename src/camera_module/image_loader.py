@@ -15,15 +15,18 @@ class ImageLoader:
 		files = os.listdir(src)
 		for img_file in files:
 			
-			print(f"file: {src}/{img_file}")
-			byte_imgs = self.load_img(f"{src}/{img_file}")
+			#print(f"file: {src}/{img_file}")
+			#byte_imgs = self.load_img(f"{src}\{img_file}")
+			path = src + "\\" + img_file
+			byte_imgs = self.load_img(path)
 			self.byte_imgs.append(byte_imgs)
 		
 		return self.byte_imgs
 
 
 	def load_img(self, src):
-		img = cv2.imread(r'C:\Users\1\Documents\VSCode\Python\comptech\rep\LumberDefectComptech\data\photo_5208655493428531943_y.jpg')[:, :, ::-1]
+		#img = cv2.imread(r'C:\Users\1\Documents\VSCode\Python\comptech\rep\LumberDefectComptech\data\photo_5208655493428531943_y.jpg')[:, :, ::-1]
+		img = cv2.imread(src)[:, :, ::-1]
 		byte_img = img.tobytes()
 
 		return byte_img

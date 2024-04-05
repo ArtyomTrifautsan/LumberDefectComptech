@@ -9,12 +9,12 @@ import io
 from src.network_module.network_controller import NetworkController
 from src.camera_module.image_loader import ImageLoader
 
-from controller import MainWindowController
+from src.GUI_module.controller import MainWindowController
 from PyQt6 import QtCore
 from PyQt6.QtWidgets import QApplication, QWidget
 from PyQt6.QtGui import QPixmap
 
-from board_displayer import BoardDisplayer
+from src.GUI_module.board_displayer import BoardDisplayer
 import sys
 
 
@@ -32,7 +32,7 @@ def _process_gui(config):
 		data = json.loads(byte_data)
 		# print(f"Бинарный вид полученного изображения: {byte_img}")
 		#print(f"data from gui.py: {data}")
-		print(type(data))
+		#print(type(data))
 
 		numpy_img = np.array(data["numpy_img"], dtype=np.uint8)[:, :, ::-1]
 		#img = image_loader.byte_to_img(byte_img)
@@ -47,6 +47,6 @@ def process_gui(config):
 
 	board_displayer = BoardDisplayer()
 	app = QApplication(sys.argv)
-	w1 = MainWindowController(app_kernel=board_displayer)  # = QtWidgets.QMainWindow()
+	w1 = MainWindowController(board_displayer, network_controller)  # = QtWidgets.QMainWindow()
 	w1.show()  # MainWindow.show()
 	app.exec()

@@ -5,7 +5,7 @@ class BoardDisplayer():
     def __init__(self):
         self.current_image = np.zeros((480, 640, 3), dtype=np.uint8)
         self.marked_image = np.zeros((480, 640, 3), dtype=np.uint8)
-        self.current_defects_list = [["wewewr", [100, 100], [200, 200]], ["23431", [110, 60], [200, 300]]]
+        self.current_defects_list = ["", [], []]
 
     def draw_defects(self, defects_list):
         self.marked_image = self.current_image.copy()
