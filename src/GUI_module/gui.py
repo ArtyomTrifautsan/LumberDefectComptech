@@ -1,4 +1,5 @@
 import time
+import json
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
@@ -20,11 +21,15 @@ def process_gui(config):
 		# Здесь GUI ожидает и получает данные от нейросети  
   
 
-		byte_img = network_controller.accept_message()
+		byte_data = network_controller.accept_message().decode()
+		data = json.loads(byte_data)
 		# print(f"Бинарный вид полученного изображения: {byte_img}")
+		#print(f"data from gui.py: {data}")
+		print(type(data))
 
-		img = image_loader.binary_to_img(byte_img)
+		numpy_img = np.array(data["numpy_img"], dtype=np.uint8)[:, :, ::-1]
+		#img = image_loader.byte_to_img(byte_img)
 		#print(f"Декодированный вид полученного изображения: {img}")
-
-		cv2.imshow('win', img)
+  
+		cv2.imshow('win', numpy_img)
 		cv2.waitKey()
